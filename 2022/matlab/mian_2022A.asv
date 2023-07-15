@@ -1,0 +1,26 @@
+%% DATE:2023-7-10
+%% AUTHORIZED:YTX HDU
+%% 这个文件用来对比需不需要做FFTshift
+%% 理论上只有时域的采样数据在进行FFT后要进行频谱的搬移
+%% 这里数据还是使用的2022A
+%% 注意这里使用的不是多个信号一起发射
+%% 题目中明确提出了信号是一个一个发射出去的
+%% 所以这里使用的应当是TMD（时分复用） 就是时间划片 特定时间特定的收发
+clear
+clc
+close all;
+%% 参数设置
+radar=function_radarParameter();
+disp("FMCW雷达对应的参数分别为：");
+disp("最大可测距离："+radar.disMAX+"m"+"  "+"距离分辨率："+radar.disMIN+"m");
+disp("最大可测速度："+radar.velMAX+"m/s"+"  "+"速度分辨率："+radar.velMIN+"m/s");
+disp("最大可测角度："+radar.sigleMAX2D+"degree"+"  "+"角度分辨率："+radar.sigleMIN2D+"degree");
+%% 外部数据读入
+external_data=3;
+sstring=["raw","binary"];%FTT参数选择
+data_FMCW=dataReader(external_data);%获得的传感器数据
+%% 信号处理：
+measurement=FMCWsignalProcessing(data,data_FMCW,sstring(1));
+
+
+
